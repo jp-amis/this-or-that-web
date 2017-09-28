@@ -1,0 +1,32 @@
+{
+  "name": "thisorthat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jp-amis/this-or-that-web.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/jp-amis/this-or-that-web/issues"
+  },
+  "homepage": "https://github.com/jp-amis/this-or-that-web#readme",
+  "private": true,
+  "dependencies": {
+    "async": "^2.5.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.15.5",
+    "sqlite3": "^3.1.12",
+    "validator": "^8.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "eslint-plugin-import": "^2.2.0"
+  }
+}
