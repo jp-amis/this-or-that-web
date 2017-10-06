@@ -38,7 +38,7 @@ function save(user, callback) {
 }
 
 function getTokenForID(id) {
-    return CryptoServices.encrypt(id);
+    return CryptoServices.encrypt(id.toString());
 }
 
 module.exports = {};
