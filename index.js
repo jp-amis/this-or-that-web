@@ -26,9 +26,7 @@ router.post('/this-or-that', require('./routes/ThisOrThat/Get'));
 router.post('/this-or-that/vote', require('./routes/ThisOrThat/Vote'));
 
 // Ranks
-// router.get('/rank/top', require('./routes/Rank/Top'));
-// router.get('/rank/worst', require('./routes/Rank/Worst'));
-// router.get('/rank/', require('./routes/Rank/T'));
+router.get('/rank/top', require('./routes/Rank/Top'));
 
 app.use(router);
 // ##### Bootstrap

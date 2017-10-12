@@ -10,5 +10,17 @@ function vote(thisorthat, callback) {
         });
 }
 
+function getTop500(callback) {
+    db.all(`
+    SELECT i.*, count(1) as total
+    FROM item i
+    INNER JOIN thisorthat t on t.selected = i.id
+    GROUP BY i.id
+    ORDER BY total desc
+    LIMIT 500;
+    `, [], (err, rows) => callback(err, rows));
+}
+
 module.exports = {};
 module.exports.vote = vote;
+module.exports.getTop500 = getTop500;
