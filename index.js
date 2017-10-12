@@ -23,7 +23,7 @@ router.post('/item/new', require('./routes/Item/New'));
 
 // This or That
 router.post('/this-or-that', require('./routes/ThisOrThat/Get'));
-// router.post('/this-or-that/vote', require('./routes/ThisOrThat/Vote'));
+router.post('/this-or-that/vote', require('./routes/ThisOrThat/Vote'));
 
 // Ranks
 // router.get('/rank/top', require('./routes/Rank/Top'));
@@ -57,6 +57,9 @@ function getSQLiteDatabase(callback) {
             selected INTEGER NOT NULL,
             id_user INTEGER NOT NULL
         );`);
+        db.run(`CREATE UNIQUE INDEX IF NOT EXISTS
+        thisorthat_id_item_a_id_item_b_id_user_uindex 
+        ON thisorthat (id_item_a, id_item_b, id_user);`);
 
         global.db = db;
         return callback(null);

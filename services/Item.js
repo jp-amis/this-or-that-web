@@ -17,10 +17,16 @@ function getRandomPairsNotVotedByUser(quantity, user, callback) {
         b.id as thatID, b.name as thatName, b.image thatImage
     FROM item a
     INNER JOIN item b ON a.id < b.id
+    WHERE NOT EXISTS (
+        SELECT *
+        FROM thisorthat c
+        WHERE c.id_item_a = a.id
+        AND c.id_item_b = b.id
+        AND c.id_user = ?)
     ORDER BY a.id * random()
     LIMIT ?;
     `,
-        [quantity], (err, rows) => {
+        [user, quantity], (err, rows) => {
             if (err) {
                 return callback(err, null);
             }
