@@ -14,6 +14,17 @@ function checkUserExistsByEmail(email, callback) {
     });
 }
 
+function getByID(id, callback) {
+    db.get('SELECT * FROM user WHERE id = ?',
+        [id], (err, row) => {
+            if (err) {
+                return callback(err, null);
+            }
+
+            return callback(null, row);
+        });
+}
+
 function findUserByEmailAndPassword(email, password, callback) {
     db.get('SELECT id FROM user WHERE email = ? AND password = ?',
         [email, password], (err, row) => {
@@ -41,8 +52,14 @@ function getTokenForID(id) {
     return CryptoServices.encrypt(id.toString());
 }
 
+function getIDForToken(token) {
+    return CryptoServices.decrypt(token.toString());
+}
+
 module.exports = {};
 module.exports.checkUserExistsByEmail = checkUserExistsByEmail;
 module.exports.findUserByEmailAndPassword = findUserByEmailAndPassword;
 module.exports.save = save;
+module.exports.getByID = getByID;
 module.exports.getTokenForID = getTokenForID;
+module.exports.getIDForToken = getIDForToken;

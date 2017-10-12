@@ -4,7 +4,10 @@ const sqlite3 = require('sqlite3');
 const async = require('async');
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '25mb', extended: true }));
+app.use(bodyParser.urlencoded({ limit: '25mb', extended: true }));
+
+app.use('/uploads', express.static('uploads'));
 
 // ##### Routes
 
@@ -12,24 +15,22 @@ app.use(bodyParser.json());
 app.post('/auth/login', require('./routes/Auth/Login'));
 app.post('/auth/register', require('./routes/Auth/Register'));
 
+const router = express.Router();
+
+router.use(require('./services/ValidateToken'));
 // Item
-// app.post('/item/new', require('./routes/Item/New'));
+router.post('/item/new', require('./routes/Item/New'));
 
 // This or That
-// app.get('/this-or-that', require('./routes/ThisOrThat/Get'));
-// app.post('/this-or-that/vote', require('./routes/ThisOrThat/Vote'));
+router.post('/this-or-that', require('./routes/ThisOrThat/Get'));
+// router.post('/this-or-that/vote', require('./routes/ThisOrThat/Vote'));
 
 // Ranks
-// app.get('/rank/top', require('./routes/Rank/Top'));
-// app.get('/rank/worst', require('./routes/Rank/Worst'));
-// app.get('/rank/', require('./routes/Rank/T'));
+// router.get('/rank/top', require('./routes/Rank/Top'));
+// router.get('/rank/worst', require('./routes/Rank/Worst'));
+// router.get('/rank/', require('./routes/Rank/T'));
 
-// var base64Data = req.rawBody.replace(/^data:image\/png;base64,/, "");
-//
-// require("fs").writeFile("out.png", base64Data, 'base64', function(err) {
-//     console.log(err);
-// });
-
+app.use(router);
 // ##### Bootstrap
 // Get sqlite database
 function getSQLiteDatabase(callback) {
@@ -45,7 +46,8 @@ function getSQLiteDatabase(callback) {
         (
             id INTEGER PRIMARY KEY AUTOINCREMENT,   
             name TEXT NOT NULL,
-            image TEXT NOT NULL
+            image TEXT NOT NULL,
+            user_id INTEGER NOT NULL
         );`);
         db.run(`CREATE TABLE IF NOT EXISTS thisorthat
         (
